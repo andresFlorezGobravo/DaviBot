@@ -25,7 +25,7 @@ class daviBot:
         self.correo = correo
         self.deuda_resuelve = deuda_resuelve
         self.driver = None
-        self.mensajes_mila = []
+        self.mensajes_mila = ['Inicia Bot']
         self.respuestas_usuario = []
         self.chat_completo = []
         self.ultimo_mensaje_respondido = None
@@ -213,6 +213,9 @@ class daviBot:
 
             time.sleep(10) # Espera de 10 segundos
 
+            
+            with self.col2:
+                button = st.download_button('Download CSV', ";".join(self.chat_completo), file_name='Chat.csv', mime="text/csv")
 
             if time.time()-tiempo_inicial >= 7200 or self.detener_bot==True:
                 st.write('Fin de la conversación')
