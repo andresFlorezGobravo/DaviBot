@@ -41,16 +41,27 @@ class daviBot:
         self.bot()
     
     def detener_bot_func(self):
+        # Esta función permite detener el While loop que ejecuta el bot. y habilita el boton de descarga del chat
         self.detener_bot = True
         self.download_file()
 
+    def fill_list(self, target_list, list_to_fill):
+        data_lenght_to_fill = len(target_list)-len(list_to_fill)
+        for i in range(data_lenght_to_fill):
+            list_to_fill.append(None)
+        return list_to_fill
+
 
     def download_file(self):
-        data = ';'.join(self.chat_completo)
+        #data = ';'.join(self.chat_completo)
+        self.mensajes_mila = self.fill_list(self.chat_completo, self.mensajes_mila)
+        self.respuestas_usuario = self.fill_list(self.chat_completo, self.respuestas_usuario)
+        dict = {'chat_completo': self.chat_completo, 'Mensajes_Mila' : self.mensajes_mila, 'Mensajes_DaviBot':self.respuestas_usuario}
+        df = pd.DataFrame(dict)
         with self.col2:
             st.download_button(
                 label='Descargar chat',
-                data = data,
+                data = df.to_csv().encode('UTF-8'),
                 file_name='chat.csv',
                 mime = 'text/csv'
             )
