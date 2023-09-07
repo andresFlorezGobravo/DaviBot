@@ -2,7 +2,7 @@
 import streamlit as st
 from DaviBot import daviBot
 from PIL import Image
-import csv
+
 
 
 
@@ -17,6 +17,7 @@ class interfaz_streamlit():
         self.col1, self.col2 = st.columns(2)
         
         self.container = st.container()
+        self.container.title('Chat:')
 
         with self.col1:
             st.text_input("Nombre", key="nombre")
@@ -58,21 +59,6 @@ interfaz_streamlit()
 
 
 
-
-
-
-
-#P1 = daviBot(st.session_state.cedula,
-#                st.session_state.referencia,
-#                st.session_state.direccion,
-#                st.session_state.ciudad,
-#                st.session_state.correo,
-#                st.session_state.deuda_resuelve
-#                )
-
-
-#if button:
-#    P1.bot()
 
 
 

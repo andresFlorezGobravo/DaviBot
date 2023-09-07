@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+import pandas as pd
 import random
 import time
 import locale
@@ -25,7 +26,7 @@ class daviBot:
         self.correo = correo
         self.deuda_resuelve = deuda_resuelve
         self.driver = None
-        self.mensajes_mila = ['Inicia Bot']
+        self.mensajes_mila = []
         self.respuestas_usuario = []
         self.chat_completo = []
         self.ultimo_mensaje_respondido = None
@@ -34,13 +35,25 @@ class daviBot:
         self.container = container
         self.col2 = col2
 
+        with self.col2:
+                st.button('STOP', on_click=self.detener_bot_func)
+
         self.bot()
     
     def detener_bot_func(self):
-        self.detener_bot = True 
+        self.detener_bot = True
+        self.download_file()
 
-    def dar_chat(self):
-        return self.chat_completo
+
+    def download_file(self):
+        data = ';'.join(self.chat_completo)
+        with self.col2:
+            st.download_button(
+                label='Descargar chat',
+                data = data,
+                file_name='chat.csv',
+                mime = 'text/csv'
+            )
 
     def num_respuestas_bot(self):
         # Esta funcion retorna la cantidad de respuestas que hace mila
@@ -214,11 +227,10 @@ class daviBot:
             time.sleep(10) # Espera de 10 segundos
 
             
-            with self.col2:
-                button = st.download_button('Download CSV', ";".join(self.chat_completo), file_name='Chat.csv', mime="text/csv")
-
+            
             if time.time()-tiempo_inicial >= 7200 or self.detener_bot==True:
-                st.write('Fin de la conversación')
+                self.container.write('Fin de la conversación')
+                self.driver.close()
                 break
 
 
