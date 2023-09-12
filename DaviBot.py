@@ -199,6 +199,7 @@ class daviBot:
 
             if 'Para terminar, me gustaría conocer su opinión sobre mi servicio' in self.mensajes_mila[-1]:
                 self.driver.find_element("xpath", "//div[@id='bt_id_5']").click()
+                self.detener_bot_func()
 
             self.ultimo_mensaje_respondido = self.mensajes_mila[-1]
             self.tiempo_espera = time.time()
