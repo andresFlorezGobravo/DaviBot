@@ -57,10 +57,13 @@ Al correr el comando por primera vez pedira un crreo electronico (Pueden dejar e
 
 Para usar multiples veces el Davibot se debe usar el segundo URL (Network URL) [La que se muestra en la imagen] Pueden copiar y pegar la URL y correr el bot cuands veces quieran siempre y cuando se use este segundo link.
 
-![CMD](https://github.com/andresFlorezGobravo/DaviBot/blob/main/images/cmd.png)
+![CMD](https://github.com/andresFlorezGobravo/DaviBot/blob/main/images/cmd.PNG)
 
 La interfaz es la siguiente:
 
 ![Interfaz](https://github.com/andresFlorezGobravo/DaviBot/blob/main/images/interfaz.png)
 
 Aquí es donde se digita la información del cliente. Y el botón iniciar Bot permite correr el funcionamiento completo.
+
+
+Duarante el funcionamiento del DaviBot se puede detener en cualquier momento haciendo click en el boton STOP. Despues de unos segundos aparecera un botón de descarga que permitirá bajar un archivo CSV nombrado con la cédula del cliente y el día en que se realizó el funcionamiento del bot.
