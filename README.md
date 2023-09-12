@@ -86,3 +86,27 @@ Durante la ejecución de este While loop se ejecutan subrutinas de la clase davi
 - *enviar_respuesta():* Envia la respuesta que ingrese como parámetro.
 - *tiempo_espera_muy_largo():* En dado caso que el tiempo de espera sea muy largo, envia un mensaje de "Sigo esperando".
 - *respuesta_contextual():* A partir del ultimo mensaje de Mila se evaluan las condiciones de contenido para enviar un mensaje predetermiando.
+
+
+# Proximos Pasos:
+
+## 1. Variedad de respuesta contextual:
+Incrementar las condiciones de y expresiones clave en las respuestas contextuales.
+
+## 2. Diseñar una interfaz apropiada:
+La interfaz deberia ser diseñada con herramientas para tal efecto. Diseñar un fron-end con HTML, CSS, JS y usando Angular como framework Frontend dado que es la tecnología usada por la empresa.
+
+## 3. Conectar con la base de datos:
+Evitar el ingreso de datos manuales a partir de la interfaz y cambiarlo por el ingreso de datos automaticas a partir de la lectura de una base de datos. 
+
+## 4. Backend formal:
+Dado que todo esta programado en Python. Sería ideal formalizar el backend usando Django como framework.
+
+## 5. Alojar la solución resultante en la nube:
+Una ves el frontend y Backend sean concretados deberia ser alojado en la nube AWS en servicions de contenedores como KUBERNETES.
+
+## 6. Almacenamiento de la conversación:
+Es necesario almacenar los archivos generados de la conversacion en una base de datos.
+
+## 7. Opcional: ChatGPT
+Añadir una funcionalidad para el procesamiento de lenguaje natural para pregurtas que no sean procesables por la función de respuesta contextual.
