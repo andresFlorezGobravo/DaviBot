@@ -53,6 +53,14 @@ Para correr la aplicación es necesario abrir el CMD en la ruta donde se encuent
 streamlit run Interfaz.py
 ```
 
+Al correr el comando por primera vez pedira un crreo electronico (Pueden dejar el campo vacío al dar enter directamente). Si no es la primera vez que corren el comando, lo unico que sucedera será la apertura de la interfaz en el LocalHost. Y en la ventana de comandos CMD aparecerá la dirección URL para compartir el aplicativo con otras personas en que esten en la misma red local.
+
+Para usar multiples veces el Davibot se debe usar el segundo URL (Network URL) [La que se muestra en la imagen] Pueden copiar y pegar la URL y correr el bot cuands veces quieran siempre y cuando se use este segundo link.
+
+![CMD](https://github.com/andresFlorezGobravo/DaviBot/blob/main/images/cmd.png)
+
 La interfaz es la siguiente:
 
 ![Interfaz](https://github.com/andresFlorezGobravo/DaviBot/blob/main/images/interfaz.png)
+
+Aquí es donde se digita la información del cliente. Y el botón iniciar Bot permite correr el funcionamiento completo.
