@@ -58,6 +58,7 @@ Al correr el comando por primera vez pedira un crreo electronico (Pueden dejar e
 Para usar multiples veces el Davibot se debe usar el segundo URL (Network URL) [La que se muestra en la imagen] Pueden copiar y pegar la URL y correr el bot cuands veces quieran siempre y cuando se use este segundo link.
 
 ![CMD](https://github.com/andresFlorezGobravo/DaviBot/blob/main/images/cmd.PNG)
+La URL no será la misma que la mostrada en la imagen !!!!
 
 La interfaz es la siguiente:
 
@@ -67,3 +68,21 @@ Aquí es donde se digita la información del cliente. Y el botón iniciar Bot pe
 
 
 Duarante el funcionamiento del DaviBot se puede detener en cualquier momento haciendo click en el boton STOP. Despues de unos segundos aparecera un botón de descarga que permitirá bajar un archivo CSV nombrado con la cédula del cliente y el día en que se realizó el funcionamiento del bot.
+
+
+**Archivo Python:** El archivo asociado a la interfaz se llama Interfaz.py
+
+
+
+## Backend:
+
+Toda la programación y lógica se realizo mediante Python. Su archivo asociado se llama DaviBot.py y cada ejecucion del bot a travez de la interfaz llama un objeto denominado *daviBot*.
+Este objeto (Clase generada en python) que se inicializa con la siguiente información del cliente: nombre, cedula, referencia, direccion, ciudad, correo, deuda_resuelve. (Esta información se digita desde la interfaz)
+
+Este objeto cuenta con varias funciones asociadas. La principal es la llamada *bot()* donde se establece la conexión con el portal de Mila-Beta e inicia un While Loop para registrar todas las acciones del bot y de mila.
+Durante la ejecución de este While loop se ejecutan subrutinas de la clase daviBot. Las sub rutinas son:
+- *leer_pregunta():* Almacena las preguntas que realiza Mila.
+- *leer_respuesta():* Almacena las respuesta que brinda Davibot
+- *enviar_respuesta():* Envia la respuesta que ingrese como parámetro.
+- *tiempo_espera_muy_largo():* En dado caso que el tiempo de espera sea muy largo, envia un mensaje de "Sigo esperando".
+- *respuesta_contextual():* A partir del ultimo mensaje de Mila se evaluan las condiciones de contenido para enviar un mensaje predetermiando.
