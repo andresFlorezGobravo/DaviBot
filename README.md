@@ -27,5 +27,5 @@ Davibot:
 > Nombre del cliente
 
 **Flujo de trabajo:** El flujo consiste en la sucesión de pasos que debería realizar DaviBot para un correcto funcionamiento. Se presenta en la siguiente imagen.
-```
-![Flujo](https://github.com/
+
+![Flujo](https://github.com/andresFlorezGobravo/DaviBot/blob/main/images/Funcionamiento_bot.png)
