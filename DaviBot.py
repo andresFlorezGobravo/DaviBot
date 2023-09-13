@@ -2,7 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import pandas as pd
 import random
@@ -214,18 +213,13 @@ class daviBot:
         options.add_experimental_option('detach', True)
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-
         # Se accede al sitio web
         self.driver.get('https://mila.cobranzasbeta.com.co/')
         self.driver.refresh()
 
-        # Se maximiza la ventana
-        self.driver.maximize_window()
-
-        # Se espera 3 segundos a que se carge el chat
-        time.sleep(3)
-        #chats = driver.find_elements("xpath", "//div[contains(@class, 'screen-content')][..//div[contains(@class, 'jsm-user-wrapper bot'][..//div[contains(@class, 'jsm-chat-box-content']")
-
+        self.driver.maximize_window() # Se maximiza la ventana
+        time.sleep(3) # Se espera 3 segundos a que se carge el chat
+        
         # Se cambia el driver al iframe del chat
         self.driver.switch_to.frame(frame_reference=self.driver.find_element("xpath", "//iframe[@id='iframechat']"))
 
@@ -260,11 +254,3 @@ if __name__=='__main__':
                     'Pereira',
                     ' julianduqque@gmail.com', 14349300)
     
-
-    P2 = daviBot('41695732', '3108566734',
-                    'calle 152 n 58 50 apto 603 t 5 Colina', 
-                    'Bogota',
-                    'lauramariasalcedo@yahoo.com', 41018749)
-    
-    #P1.bot()
-    #P2.bot()
