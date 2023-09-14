@@ -8,6 +8,9 @@ import random
 import time
 import locale
 import streamlit as st
+from datetime import date
+
+
 
 
 
@@ -18,7 +21,7 @@ class daviBot:
 
     # Función de inicialización de la calse. recibe como parámetro la info del cliente 
     # y el driver de selenium
-    def __init__(self, nombre, cedula, referencia, direccion, ciudad, correo, deuda_resuelve, container, col2):
+    def __init__(self, nombre, cedula, referencia, direccion, ciudad, correo, deuda_resuelve, container, col2, entrada_texto):
         self.nombre = nombre
         self.cedula = cedula
         self.referencia = referencia
@@ -35,7 +38,11 @@ class daviBot:
         self.detener_bot = False
         self.container = container
         self.col2 = col2
+        self.entrada_texto = entrada_texto
+        self.url = 'https://mila.cobranzasbeta.com.co/'
 
+        
+        
         with self.col2:
                 st.button('STOP', on_click=self.detener_bot_func)
 
@@ -45,6 +52,26 @@ class daviBot:
         # Esta función permite detener el While loop que ejecuta el bot. y habilita el boton de descarga del chat
         self.detener_bot = True
         self.download_file()
+        self.driver.close()
+        
+
+    def verificar_URL(self):
+        # Para algunos clientes, hay un cambio de url para dar un servicio personalizado. en ese caso es importante hacer 
+        
+        if self.driver.current_url != self.url:
+            time.sleep(10)
+            self.driver.switch_to.frame(frame_reference=self.driver.find_element("xpath", "//iframe[@id='iframechat']"))
+            self.url = self.driver.current_url
+            time.sleep(20)
+            self.enviar_respuesta('Agente')
+            time.sleep(5)
+            self.driver.find_element("xpath", "//div[@id='bt_id_1']").click()
+            
+    #def quiero_intervenir(self):
+    #    texto = st.session_state.Intervencion
+    #    self.enviar_respuesta(texto)
+    #    st.session_state.Intervencion = ""
+        
 
     def fill_list(self, target_list, list_to_fill):
         data_lenght_to_fill = len(target_list)-len(list_to_fill)
@@ -63,10 +90,11 @@ class daviBot:
             st.download_button(
                 label='Descargar chat',
                 data = df.to_csv().encode('UTF-8'),
-                file_name='chat.csv',
+                file_name=self.cedula+'--'+str(date.today())+'.csv',
                 mime = 'text/csv'
             )
 
+ 
     def num_respuestas_bot(self):
         # Esta funcion retorna la cantidad de respuestas que hace mila
         return len(self.driver.find_elements("xpath", "//div[@class='jsm-user-wrapper bot']"))
@@ -107,6 +135,9 @@ class daviBot:
                                    'Estoy manteniendo mi posición en la lista de espera.','no ha habido avances; sigo aguardando.','Aún sigo a la espera']))
             
             self.tiempo_espera=time.time()
+
+
+
     def respuesta_contextual(self):
         # Esta función permite enviar una respuesta preestablecida dependiendo de la detección de palabras clave en el último mensaje de mila (En comentario se pone el mensaje al que daremos respuesta)
 
@@ -150,6 +181,7 @@ class daviBot:
             
             if '¿Continua en linea?' in self.mensajes_mila[-1] or '¿Continúa en linea?' in self.mensajes_mila[-1] or '¿Continúa usted en línea?' in self.mensajes_mila[-1] or '¿Continua usted en linea?' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('SI')
+
 
             if 'Para conocer las opciones que tenemos en este momento para usted y realizar un ofrecimiento de acuerdo a su situación actual me puede indicar' in self.mensajes_mila[-1] or 'de ese valor con cuanto dispone para hacer el pago' in self.mensajes_mila[-1]:
                 self.enviar_respuesta(locale.currency(random.randint(12,15)*100000.0, grouping=True )[:-3])
@@ -214,7 +246,7 @@ class daviBot:
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
         # Se accede al sitio web
-        self.driver.get('https://mila.cobranzasbeta.com.co/')
+        self.driver.get(self.url)
         self.driver.refresh()
 
         self.driver.maximize_window() # Se maximiza la ventana
@@ -226,8 +258,10 @@ class daviBot:
         tiempo_inicial = time.time()
         while not(self.detener_bot):
 
+            self.verificar_URL()
             self.leer_pregunta()
-
+            
+            #self.quiero_intervenir()
             self.respuesta_contextual()
             self.leer_respuesta()
             self.tiempo_espera_muy_largo()
@@ -237,9 +271,10 @@ class daviBot:
             
             
             if time.time()-tiempo_inicial >= 7200 or self.detener_bot==True:
-                self.container.write('Fin de la conversación')
-                self.driver.close()
-                break
+                
+                #self.container.write('Fin de la conversación')
+                self.detener_bot_func()
+                
 
 
 

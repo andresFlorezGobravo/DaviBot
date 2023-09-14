@@ -18,6 +18,7 @@ class interfaz_streamlit():
         
         self.container = st.container()
         self.container.title('Chat:')
+        self.Entrada_texto = None #self.container.text_input("Quiero Intervenir:", key='Intervencion')
 
         with self.col1:
             st.text_input("Nombre", key="nombre")
@@ -46,7 +47,8 @@ class interfaz_streamlit():
                     st.session_state.correo,
                     st.session_state.deuda_resuelve,
                     self.container,
-                    self.col2
+                    self.col2,
+                    self.Entrada_texto
                     )
 
 

@@ -103,10 +103,10 @@ Evitar el ingreso de datos manuales a partir de la interfaz y cambiarlo por el i
 Dado que todo esta programado en Python. Sería ideal formalizar el backend usando Django como framework.
 
 ## 5. Alojar la solución resultante en la nube:
-Una ves el frontend y Backend sean concretados deberia ser alojado en la nube AWS en servicions de contenedores como KUBERNETES.
+Una vez el frontend y Backend sean concretados deberia ser alojado en la nube AWS en servicions de contenedores como KUBERNETES.
 
 ## 6. Almacenamiento de la conversación:
-Es necesario almacenar los archivos generados de la conversacion en una base de datos.
+Es necesario almacenar los archivos generados de la conversación en una base de datos.
 
 ## 7. Opcional: ChatGPT
 Añadir una funcionalidad para el procesamiento de lenguaje natural para pregurtas que no sean procesables por la función de respuesta contextual.
