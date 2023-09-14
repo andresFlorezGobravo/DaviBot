@@ -132,7 +132,9 @@ class daviBot:
         if time.time() - self.tiempo_espera>180:
             self.enviar_respuesta(random.choice(['Sigo a la espera','Continúo aguardando novedades','Aún estoy en la cola de espera','Mi situación no ha cambiado, sigo esperando', 'No he recibido actualizaciones, sigo en espera.', 'Mi estado sigue siendo el mismo: en espera.',
                                    'Hasta el momento, no ha habido cambios; sigo esperando.', 'Sigo en la misma situación de espera que antes.', 'No ha habido movimiento, sigo en proceso de espera.',
-                                   'Estoy manteniendo mi posición en la lista de espera.','no ha habido avances; sigo aguardando.','Aún sigo a la espera']))
+                                   'Estoy manteniendo mi posición en la lista de espera.','no ha habido avances; sigo aguardando.','Aún sigo a la espera', "¿Cuándo crees que estará listo?",
+                                   "Estoy ansioso por saber", "No puedo esperar para verlo.", "Estoy contando los minutos.", "La espera se está haciendo eterna.", "A que se debe la demora?", "Por que la demora?",
+                                   "Demasiado tiempo", "Tengo algo de prisa", "No tengo mucho tiempo disponible"]))
             
             self.tiempo_espera=time.time()
 
@@ -201,7 +203,12 @@ class daviBot:
 
             # ¿Qué actividad económica realiza como independiente?
             if '¿Qué actividad económica realiza' in self.mensajes_mila[-1]:
-                self.enviar_respuesta(random.choice(['venta de repuestos','ventas por catalogo','venta de confiteria','venta de empanadas','venta de papeleria','servicios generales']))
+                self.enviar_respuesta(random.choice(['venta de repuestos','ventas por catalogo','venta de confiteria','Proveedor de alimentos',
+                                                     'Suministrador de alimentos','venta de papeleria','servicios generales', 'Carpintero',
+                                                     'Fontanero', 'Electricista', 'Albañil', 'Pintor', 'Jardinero', 'Plomero', 'Mozo de carga',
+                                                     'Conductor de Uber', 'Conductor de aplicación', 'Mensajero a domicilio', 'Asistente de tienda',
+                                                     'Peluquero', 'Manicurista/pedicurista', 'Lavacoches', 'Cuidador de mascotas', 'Entrenador de perros',
+                                                     'Ayudante de mudanzas', 'Guía turístico', 'Reparador de bicicletas', 'Chef personal']))
 
             # ¿Desde hace cuánto tiempo realiza esa actividad como independiente?
             if '¿Desde hace cuánto tiempo realiza esa actividad' in self.mensajes_mila[-1]:
