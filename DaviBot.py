@@ -57,16 +57,16 @@ class daviBot:
 
     def verificar_URL(self):
         # Para algunos clientes, hay un cambio de url para dar un servicio personalizado. en ese caso es importante hacer 
-        
-        if self.driver.current_url != self.url:
-            time.sleep(10)
-            self.driver.switch_to.frame(frame_reference=self.driver.find_element("xpath", "//iframe[@id='iframechat']"))
-            self.url = self.driver.current_url
-            time.sleep(20)
-            self.enviar_respuesta('Agente')
-            time.sleep(5)
-            self.driver.find_element("xpath", "//div[@id='bt_id_1']").click()
-            
+        if self.detener_bot==False:
+            if self.driver.current_url != self.url:
+                time.sleep(10)
+                self.driver.switch_to.frame(frame_reference=self.driver.find_element("xpath", "//iframe[@id='iframechat']"))
+                self.url = self.driver.current_url
+                time.sleep(20)
+                self.enviar_respuesta('Agente')
+                time.sleep(5)
+                self.driver.find_element("xpath", "//div[@id='bt_id_1']").click()
+                
     #def quiero_intervenir(self):
     #    texto = st.session_state.Intervencion
     #    self.enviar_respuesta(texto)
@@ -237,6 +237,7 @@ class daviBot:
 
             if 'Para terminar, me gustaría conocer su opinión sobre mi servicio' in self.mensajes_mila[-1]:
                 self.driver.find_element("xpath", "//div[@id='bt_id_5']").click()
+                time.sleep(5)
                 self.detener_bot_func()
 
             self.ultimo_mensaje_respondido = self.mensajes_mila[-1]
@@ -265,22 +266,30 @@ class daviBot:
         tiempo_inicial = time.time()
         while not(self.detener_bot):
 
+            if time.time()-tiempo_inicial >= 7200:
+                self.detener_bot_func()
+                break
+            elif self.detener_bot==True:
+                break
+            
+           
             self.verificar_URL()
             self.leer_pregunta()
             
             #self.quiero_intervenir()
             self.respuesta_contextual()
-            self.leer_respuesta()
+
+            if self.detener_bot==False:  
+                self.leer_respuesta()
+                
             self.tiempo_espera_muy_largo()
 
             time.sleep(10) # Espera de 10 segundos
 
+           
             
             
-            if time.time()-tiempo_inicial >= 7200 or self.detener_bot==True:
-                
-                #self.container.write('Fin de la conversación')
-                self.detener_bot_func()
+            
                 
 
 
