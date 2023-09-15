@@ -190,7 +190,7 @@ class daviBot:
                 self.enviar_respuesta(locale.currency(self.deuda_resuelve*0.5, grouping=True)[:-3])
 
             #Señor/a,LUZ M JIMENEZ C gracias por su permanencia en línea. Le informo el estado del portafolio, sus obligaciones castigadas a la fecha presenta una deuda total de total de$ 1.586.115 con 229 días días de mora, por lo tanto se están generando intereses de mora.Los productos presentan mora, esta mora ya está siendo reportada ante las centrales de información financiera y su permanencia luego de normalizar será del doble del tiempo de la mora hasta 4 años. Aquí estamos para acompañarlo, cuénteme ¿Qué situación se le ha presentado?
-            if 'situación se le ha presentado?' in self.mensajes_mila[-1] or 'cuál es el motivo de no pago' in self.mensajes_mila[-1]:
+            if 'situación se le ha presentado?' in self.mensajes_mila[-1] or 'cuál es el motivo de no pago' in self.mensajes_mila[-1] or 'cambio en sus finanzas' in self.mensajes_mila[-1] or 'no le ha permitido realizar el pago' in self.mensajes_mila[-1]:
                 # TODO: almacenar la información de la deuda y los días de mora
                 self.enviar_respuesta(random.choice(['Reducción de ingresos por problemas de salud','enfermedad articular']))
             
@@ -225,8 +225,11 @@ class daviBot:
             if 'Tasa' in self.mensajes_mila[-1] or 'Cuota Aproximada' in  self.mensajes_mila[-1]:
                 self.enviar_respuesta('No, ¿Cuánto es el valor que debo cancelar para quedar a paz y salvo?')
 
-            if 'cuanto dispone para pagar' in self.mensajes_mila[-1]:
+            if 'cuanto dispone para pagar' in self.mensajes_mila[-1] or 'propuesta de pago total ?' in self.mensajes_mila[-1]:
                 self.enviar_respuesta(locale.currency(self.deuda_resuelve*0.5, grouping=True)[:-3])
+
+            if ' replantear su oferta de pago total' in self.mensajes_mila[-1]:
+                self.enviar_respuesta(locale.currency(self.deuda_resuelve*0.6, grouping=True)[:-3])
 
             if 'DESCUENTO DE PAGO' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('voy a validar en los próximos días a ver si logro reunir el dinero')
@@ -281,7 +284,7 @@ class daviBot:
 
             if self.detener_bot==False:  
                 self.leer_respuesta()
-                
+
             self.tiempo_espera_muy_largo()
 
             time.sleep(10) # Espera de 10 segundos
