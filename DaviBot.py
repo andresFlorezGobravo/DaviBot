@@ -186,7 +186,7 @@ class daviBot:
             if 'De donde provienen los recursos' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('Tengo unos ahorros')
 
-            if 'Tasa' in self.mensajes_mila[-1] or 'Cuota Aproximada' in  self.mensajes_mila[-1]:
+            if 'Tasa' in self.mensajes_mila[-1] or 'Cuota Aproximada' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('No, ¿Cuánto es el valor que debo cancelar para quedar a paz y salvo?')
 
             if 'cuanto dispone para pagar' in self.mensajes_mila[-1]:
@@ -206,7 +206,7 @@ class daviBot:
             self.ultimo_mensaje_respondido = self.mensajes_mila[-1]
             self.tiempo_espera = time.time()
 
-            
+            #hola
 
 
     def bot(self):
