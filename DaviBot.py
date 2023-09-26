@@ -2,17 +2,15 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import pandas as pd
 import random
 import time
 import locale
 import streamlit as st
-from datetime import date
 
-
-
-
+#Hola mundo
 
 locale.setlocale( locale.LC_ALL, '' ) # Para dar formato de moneda financiera a valores númericos de monedo
 
@@ -21,7 +19,7 @@ class daviBot:
 
     # Función de inicialización de la calse. recibe como parámetro la info del cliente 
     # y el driver de selenium
-    def __init__(self, nombre, cedula, referencia, direccion, ciudad, correo, deuda_resuelve, container, col2, entrada_texto):
+    def __init__(self, nombre, cedula, referencia, direccion, ciudad, correo, deuda_resuelve, container, col2):
         self.nombre = nombre
         self.cedula = cedula
         self.referencia = referencia
@@ -38,11 +36,7 @@ class daviBot:
         self.detener_bot = False
         self.container = container
         self.col2 = col2
-        self.entrada_texto = entrada_texto
-        self.url = 'https://mila.cobranzasbeta.com.co/'
 
-        
-        
         with self.col2:
                 st.button('STOP', on_click=self.detener_bot_func)
 
@@ -52,26 +46,6 @@ class daviBot:
         # Esta función permite detener el While loop que ejecuta el bot. y habilita el boton de descarga del chat
         self.detener_bot = True
         self.download_file()
-        self.driver.close()
-        
-
-    def verificar_URL(self):
-        # Para algunos clientes, hay un cambio de url para dar un servicio personalizado. en ese caso es importante hacer 
-        if self.detener_bot==False:
-            if self.driver.current_url != self.url:
-                time.sleep(10)
-                self.driver.switch_to.frame(frame_reference=self.driver.find_element("xpath", "//iframe[@id='iframechat']"))
-                self.url = self.driver.current_url
-                time.sleep(20)
-                self.enviar_respuesta('Agente')
-                time.sleep(5)
-                self.driver.find_element("xpath", "//div[@id='bt_id_1']").click()
-                
-    #def quiero_intervenir(self):
-    #    texto = st.session_state.Intervencion
-    #    self.enviar_respuesta(texto)
-    #    st.session_state.Intervencion = ""
-        
 
     def fill_list(self, target_list, list_to_fill):
         data_lenght_to_fill = len(target_list)-len(list_to_fill)
@@ -90,11 +64,10 @@ class daviBot:
             st.download_button(
                 label='Descargar chat',
                 data = df.to_csv().encode('UTF-8'),
-                file_name=self.cedula+'--'+str(date.today())+'.csv',
+                file_name='chat.csv',
                 mime = 'text/csv'
             )
 
- 
     def num_respuestas_bot(self):
         # Esta funcion retorna la cantidad de respuestas que hace mila
         return len(self.driver.find_elements("xpath", "//div[@class='jsm-user-wrapper bot']"))
@@ -132,14 +105,9 @@ class daviBot:
         if time.time() - self.tiempo_espera>180:
             self.enviar_respuesta(random.choice(['Sigo a la espera','Continúo aguardando novedades','Aún estoy en la cola de espera','Mi situación no ha cambiado, sigo esperando', 'No he recibido actualizaciones, sigo en espera.', 'Mi estado sigue siendo el mismo: en espera.',
                                    'Hasta el momento, no ha habido cambios; sigo esperando.', 'Sigo en la misma situación de espera que antes.', 'No ha habido movimiento, sigo en proceso de espera.',
-                                   'Estoy manteniendo mi posición en la lista de espera.','no ha habido avances; sigo aguardando.','Aún sigo a la espera', "¿Cuándo crees que estará listo?",
-                                   "Estoy ansioso por saber", "No puedo esperar para verlo.", "Estoy contando los minutos.", "La espera se está haciendo eterna.", "A que se debe la demora?", "Por que la demora?",
-                                   "Demasiado tiempo", "Tengo algo de prisa", "No tengo mucho tiempo disponible"]))
+                                   'Estoy manteniendo mi posición en la lista de espera.','no ha habido avances; sigo aguardando.','Aún sigo a la espera']))
             
             self.tiempo_espera=time.time()
-
-
-
     def respuesta_contextual(self):
         # Esta función permite enviar una respuesta preestablecida dependiendo de la detección de palabras clave en el último mensaje de mila (En comentario se pone el mensaje al que daremos respuesta)
 
@@ -184,13 +152,12 @@ class daviBot:
             if '¿Continua en linea?' in self.mensajes_mila[-1] or '¿Continúa en linea?' in self.mensajes_mila[-1] or '¿Continúa usted en línea?' in self.mensajes_mila[-1] or '¿Continua usted en linea?' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('SI')
 
-
             if 'Para conocer las opciones que tenemos en este momento para usted y realizar un ofrecimiento de acuerdo a su situación actual me puede indicar' in self.mensajes_mila[-1] or 'de ese valor con cuanto dispone para hacer el pago' in self.mensajes_mila[-1]:
                 self.enviar_respuesta(locale.currency(random.randint(12,15)*100000.0, grouping=True )[:-3])
                 self.enviar_respuesta(locale.currency(self.deuda_resuelve*0.5, grouping=True)[:-3])
 
             #Señor/a,LUZ M JIMENEZ C gracias por su permanencia en línea. Le informo el estado del portafolio, sus obligaciones castigadas a la fecha presenta una deuda total de total de$ 1.586.115 con 229 días días de mora, por lo tanto se están generando intereses de mora.Los productos presentan mora, esta mora ya está siendo reportada ante las centrales de información financiera y su permanencia luego de normalizar será del doble del tiempo de la mora hasta 4 años. Aquí estamos para acompañarlo, cuénteme ¿Qué situación se le ha presentado?
-            if 'situación se le ha presentado?' in self.mensajes_mila[-1] or 'cuál es el motivo de no pago' in self.mensajes_mila[-1] or 'cambio en sus finanzas' in self.mensajes_mila[-1] or 'no le ha permitido realizar el pago' in self.mensajes_mila[-1]:
+            if 'situación se le ha presentado?' in self.mensajes_mila[-1] or 'cuál es el motivo de no pago' in self.mensajes_mila[-1]:
                 # TODO: almacenar la información de la deuda y los días de mora
                 self.enviar_respuesta(random.choice(['Reducción de ingresos por problemas de salud','enfermedad articular']))
             
@@ -203,12 +170,7 @@ class daviBot:
 
             # ¿Qué actividad económica realiza como independiente?
             if '¿Qué actividad económica realiza' in self.mensajes_mila[-1]:
-                self.enviar_respuesta(random.choice(['venta de repuestos','ventas por catalogo','venta de confiteria','Proveedor de alimentos',
-                                                     'Suministrador de alimentos','venta de papeleria','servicios generales', 'Carpintero',
-                                                     'Fontanero', 'Electricista', 'Albañil', 'Pintor', 'Jardinero', 'Plomero', 'Mozo de carga',
-                                                     'Conductor de Uber', 'Conductor de aplicación', 'Mensajero a domicilio', 'Asistente de tienda',
-                                                     'Peluquero', 'Manicurista/pedicurista', 'Lavacoches', 'Cuidador de mascotas', 'Entrenador de perros',
-                                                     'Ayudante de mudanzas', 'Guía turístico', 'Reparador de bicicletas', 'Chef personal']))
+                self.enviar_respuesta(random.choice(['venta de repuestos','ventas por catalogo','venta de confiteria','venta de empanadas','venta de papeleria','servicios generales']))
 
             # ¿Desde hace cuánto tiempo realiza esa actividad como independiente?
             if '¿Desde hace cuánto tiempo realiza esa actividad' in self.mensajes_mila[-1]:
@@ -225,11 +187,8 @@ class daviBot:
             if 'Tasa' in self.mensajes_mila[-1] or 'Cuota Aproximada' in  self.mensajes_mila[-1]:
                 self.enviar_respuesta('No, ¿Cuánto es el valor que debo cancelar para quedar a paz y salvo?')
 
-            if 'cuanto dispone para pagar' in self.mensajes_mila[-1] or 'propuesta de pago total ?' in self.mensajes_mila[-1]:
+            if 'cuanto dispone para pagar' in self.mensajes_mila[-1]:
                 self.enviar_respuesta(locale.currency(self.deuda_resuelve*0.5, grouping=True)[:-3])
-
-            if ' replantear su oferta de pago total' in self.mensajes_mila[-1]:
-                self.enviar_respuesta(locale.currency(self.deuda_resuelve*0.6, grouping=True)[:-3])
 
             if 'DESCUENTO DE PAGO' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('voy a validar en los próximos días a ver si logro reunir el dinero')
@@ -240,8 +199,6 @@ class daviBot:
 
             if 'Para terminar, me gustaría conocer su opinión sobre mi servicio' in self.mensajes_mila[-1]:
                 self.driver.find_element("xpath", "//div[@id='bt_id_5']").click()
-                time.sleep(5)
-                self.detener_bot_func()
 
             self.ultimo_mensaje_respondido = self.mensajes_mila[-1]
             self.tiempo_espera = time.time()
@@ -256,44 +213,38 @@ class daviBot:
         options.add_experimental_option('detach', True)
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
+
         # Se accede al sitio web
-        self.driver.get(self.url)
+        self.driver.get('https://mila.cobranzasbeta.com.co/')
         self.driver.refresh()
 
-        self.driver.maximize_window() # Se maximiza la ventana
-        time.sleep(3) # Se espera 3 segundos a que se carge el chat
-        
+        # Se maximiza la ventana
+        self.driver.maximize_window()
+
+        # Se espera 3 segundos a que se carge el chat
+        time.sleep(3)
+        #chats = driver.find_elements("xpath", "//div[contains(@class, 'screen-content')][..//div[contains(@class, 'jsm-user-wrapper bot'][..//div[contains(@class, 'jsm-chat-box-content']")
+
         # Se cambia el driver al iframe del chat
         self.driver.switch_to.frame(frame_reference=self.driver.find_element("xpath", "//iframe[@id='iframechat']"))
 
         tiempo_inicial = time.time()
         while not(self.detener_bot):
 
-            if time.time()-tiempo_inicial >= 7200:
-                self.detener_bot_func()
-                break
-            elif self.detener_bot==True:
-                break
-            
-           
-            self.verificar_URL()
             self.leer_pregunta()
-            
-            #self.quiero_intervenir()
+
             self.respuesta_contextual()
-
-            if self.detener_bot==False:  
-                self.leer_respuesta()
-
+            self.leer_respuesta()
             self.tiempo_espera_muy_largo()
 
             time.sleep(10) # Espera de 10 segundos
 
-           
             
             
-            
-                
+            if time.time()-tiempo_inicial >= 7200 or self.detener_bot==True:
+                self.container.write('Fin de la conversación')
+                self.driver.close()
+                break
 
 
 
@@ -308,3 +259,11 @@ if __name__=='__main__':
                     'Pereira',
                     ' julianduqque@gmail.com', 14349300)
     
+
+    P2 = daviBot('41695732', '3108566734',
+                    'calle 152 n 58 50 apto 603 t 5 Colina', 
+                    'Bogota',
+                    'lauramariasalcedo@yahoo.com', 41018749)
+    
+    #P1.bot()
+    #P2.bot()
