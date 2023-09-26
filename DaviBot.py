@@ -17,7 +17,7 @@ locale.setlocale( locale.LC_ALL, '' ) # Para dar formato de moneda financiera a 
 
 class daviBot:
 
-    # Función de inicialización de la calse. recibe como parámetro la info del cliente 
+    # Función de inicialización de la clase. recibe como parámetro la info del cliente 
     # y el driver de selenium
     def __init__(self, nombre, cedula, referencia, direccion, ciudad, correo, deuda_resuelve, container, col2):
         self.nombre = nombre
@@ -141,25 +141,27 @@ class daviBot:
             if '¿Usted autoriza al Banco Davivienda y PYC BETA para registrar la actualización de sus datos de contacto a su base de datos' in  self.mensajes_mila[-1]:
                 self.enviar_respuesta('SI')
                 
-            # ¿Cómo podemos ayudarle el día de hoy?
-            if 'de hoy?' in self.mensajes_mila[-1] or 'de hoy ?' in self.mensajes_mila[-1]:
-                self.enviar_respuesta('Quiero llegar a un acuerdo de pago para mis obligaciones en mora')
+            # ¿Cómo podemos ayudarle el día de hoy? ¿Contamos con su pago para hoy?
+            if 'de hoy?' in self.mensajes_mila[-1] or 'para hoy?' in self.mensajes_mila[-1]:
+                self.enviar_respuesta('No, Quiero llegar a un acuerdo de pago para mis obligaciones en mora')
             
 
             if 'ya cuenta' in self.mensajes_mila[-1] or 'Ya cuenta' in self.mensajes_mila[-1] or 'recursos para' in self.mensajes_mila[-1] or 'recurso para' in self.mensajes_mila[-1]:
-                self.enviar_respuesta('No. Quiero llegar a un acuerdo de pago')
+                self.enviar_respuesta('No, Quiero llegar a un acuerdo de pago')
             
             if '¿Continua en linea?' in self.mensajes_mila[-1] or '¿Continúa en linea?' in self.mensajes_mila[-1] or '¿Continúa usted en línea?' in self.mensajes_mila[-1] or '¿Continua usted en linea?' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('SI')
 
-            if 'Para conocer las opciones que tenemos en este momento para usted y realizar un ofrecimiento de acuerdo a su situación actual me puede indicar' in self.mensajes_mila[-1] or 'de ese valor con cuanto dispone para hacer el pago' in self.mensajes_mila[-1]:
+            if 'realizar un ofrecimiento de acuerdo a su situación actual me puede indicar' in self.mensajes_mila[-1] or 'de ese valor con cuanto dispone para hacer el pago' in self.mensajes_mila[-1]:
                 self.enviar_respuesta(locale.currency(random.randint(12,15)*100000.0, grouping=True )[:-3])
                 self.enviar_respuesta(locale.currency(self.deuda_resuelve*0.5, grouping=True)[:-3])
+            if  'cuanto es su ingreso?' in self.mensajes_mila[-1]:
+                 self.enviar_respuesta(locale.currency(random.randint(12,15)*100000.0, grouping=True )[:-3])  
 
-            #Señor/a,LUZ M JIMENEZ C gracias por su permanencia en línea. Le informo el estado del portafolio, sus obligaciones castigadas a la fecha presenta una deuda total de total de$ 1.586.115 con 229 días días de mora, por lo tanto se están generando intereses de mora.Los productos presentan mora, esta mora ya está siendo reportada ante las centrales de información financiera y su permanencia luego de normalizar será del doble del tiempo de la mora hasta 4 años. Aquí estamos para acompañarlo, cuénteme ¿Qué situación se le ha presentado?
-            if 'situación se le ha presentado?' in self.mensajes_mila[-1] or 'cuál es el motivo de no pago' in self.mensajes_mila[-1]:
+            #¿Qué situación se le ha presentado? Agradecemos de manera voluntaria nos confirme que cambio en sus finanzas para que no pueda realizar el pago de sus obligaciones?
+            if 'situación se le ha presentado?' in self.mensajes_mila[-1] or 'cuál es el motivo de no pago' in self.mensajes_mila[-1] or 'no pueda realizar el pago de sus obligaciones?' in self.mensajes_mila[-1]:
                 # TODO: almacenar la información de la deuda y los días de mora
-                self.enviar_respuesta(random.choice(['Reducción de ingresos por problemas de salud','enfermedad articular']))
+                self.enviar_respuesta(random.choice(['Reducción de ingresos por problemas de salud','Reducción de ingresos por enfermedad']))
             
             if 'esta situación?' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('6 meses')
@@ -170,7 +172,7 @@ class daviBot:
 
             # ¿Qué actividad económica realiza como independiente?
             if '¿Qué actividad económica realiza' in self.mensajes_mila[-1]:
-                self.enviar_respuesta(random.choice(['venta de repuestos','ventas por catalogo','venta de confiteria','venta de empanadas','venta de papeleria','servicios generales']))
+                self.enviar_respuesta(random.choice(['venta de repuestos','ventas por catalogo','venta de confiteria','venta de alimentos y bebidas','venta de papeleria','reparaciones y mantenimiento','reparación de vehiculos','venta de articulos usados','cuidado de mascotas','servicios de jardineria','servicios de peluqueria','conductor de transporte privado en plataformas digitales','servicios de clases particulares','venta de artesania y manualidades','reparación de electrodomesticos']))
 
             # ¿Desde hace cuánto tiempo realiza esa actividad como independiente?
             if '¿Desde hace cuánto tiempo realiza esa actividad' in self.mensajes_mila[-1]:
@@ -190,7 +192,8 @@ class daviBot:
             if 'cuanto dispone para pagar' in self.mensajes_mila[-1]:
                 self.enviar_respuesta(locale.currency(self.deuda_resuelve*0.5, grouping=True)[:-3])
 
-            if 'DESCUENTO DE PAGO' in self.mensajes_mila[-1]:
+            #Llegar a acuerdo de pago ¿Está usted de acuerdo con esta alternativa ?
+            if 'DESCUENTO DE PAGO' in self.mensajes_mila[-1] or 'de acuerdo con esta alternativa' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('voy a validar en los próximos días a ver si logro reunir el dinero')
                 self.enviar_respuesta('¿Con ese valor quedo a paz y salvo con la obligación?')
 
