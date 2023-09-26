@@ -19,7 +19,7 @@ class daviBot:
 
     # Función de inicialización de la clase. recibe como parámetro la info del cliente 
     # y el driver de selenium
-    def __init__(self, nombre, cedula, referencia, direccion, ciudad, correo, deuda_resuelve, container, col2):
+    def __init__(self, nombre, cedula, referencia, direccion, ciudad, correo, deuda_resuelve, container, col2, entrada_texto):
         self.nombre = nombre
         self.cedula = cedula
         self.referencia = referencia
@@ -36,6 +36,8 @@ class daviBot:
         self.detener_bot = False
         self.container = container
         self.col2 = col2
+        self.entrada_texto= entrada_texto
+        self.url="https://mila.cobranzasbeta.com.co/"
 
         with self.col2:
                 st.button('STOP', on_click=self.detener_bot_func)
@@ -206,7 +208,6 @@ class daviBot:
             self.ultimo_mensaje_respondido = self.mensajes_mila[-1]
             self.tiempo_espera = time.time()
 
-            #hola
 
 
     def bot(self):
