@@ -128,13 +128,13 @@ class daviBot:
         self.driver.find_element("xpath","//input[@id='textInput']").send_keys(Keys.RETURN)
 
     def tiempo_espera_muy_largo(self):
-        # En dado caso de no recibir respuesta en menos de 3 min se envia un mensaje.
-        if time.time() - self.tiempo_espera>180:
+        # En dado caso de no recibir respuesta en menos de 7 min se envia un mensaje.
+        if time.time() - self.tiempo_espera>420:
             self.enviar_respuesta(random.choice(['Sigo a la espera','Continúo aguardando novedades','Aún estoy en la cola de espera','Mi situación no ha cambiado, sigo esperando', 'No he recibido actualizaciones, sigo en espera.', 'Mi estado sigue siendo el mismo: en espera.',
                                    'Hasta el momento, no ha habido cambios; sigo esperando.', 'Sigo en la misma situación de espera que antes.', 'No ha habido movimiento, sigo en proceso de espera.',
                                    'Estoy manteniendo mi posición en la lista de espera.','no ha habido avances; sigo aguardando.','Aún sigo a la espera', "¿Cuándo crees que estará listo?",
-                                   "Estoy ansioso por saber", "No puedo esperar para verlo.", "Estoy contando los minutos.", "La espera se está haciendo eterna.", "A que se debe la demora?", "Por que la demora?",
-                                   "Demasiado tiempo", "Tengo algo de prisa", "No tengo mucho tiempo disponible"]))
+                                   "La espera se está haciendo eterna.", "A que se debe la demora?", "Por que la demora?",
+                                   "Demasiado tiempo", "Tengo algo de prisa", "No tengo mucho tiempo disponible", 'hola??','¿Cuánto tiempo más tendré que aguantar esta demora?','Estoy harto de que las cosas no avancen más rápido.','¿Por qué todo tiene que ser tan lento?']))
             
             self.tiempo_espera=time.time()
 
@@ -176,6 +176,10 @@ class daviBot:
             # ¿Cómo podemos ayudarle el día de hoy? ¿Contamos con su pago para hoy?
             if 'de hoy?' in self.mensajes_mila[-1] or 'para hoy?' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('No, Quiero llegar a un acuerdo de pago para mis obligaciones en mora')
+
+            # Actualmente esta en cobro juridico
+            if 'cobro juridico' in self.mensajes_mila[-1]:
+                self.enviar_respuesta('Quiero llegar a un acuerdo de pago con ustedes')
             
 
             if 'ya cuenta' in self.mensajes_mila[-1] or 'Ya cuenta' in self.mensajes_mila[-1] or 'recursos para' in self.mensajes_mila[-1] or 'recurso para' in self.mensajes_mila[-1]:
@@ -191,12 +195,16 @@ class daviBot:
                  self.enviar_respuesta(locale.currency(random.randint(12,15)*100000.0, grouping=True )[:-3])  
 
             #¿Qué situación se le ha presentado? Agradecemos de manera voluntaria nos confirme que cambio en sus finanzas para que no pueda realizar el pago de sus obligaciones?
-            if 'situación se le ha presentado?' in self.mensajes_mila[-1] or 'cuál es el motivo de no pago' in self.mensajes_mila[-1] or 'no pueda realizar el pago de sus obligaciones?' in self.mensajes_mila[-1]:
+            if 'situación se le ha presentado?' in self.mensajes_mila[-1] or 'cuál es el motivo de no pago' in self.mensajes_mila[-1] or 'pago de sus obligaciones' in self.mensajes_mila[-1] or 'pago de su obligación' in self.mensajes_mila[-1]: 
                 # TODO: almacenar la información de la deuda y los días de mora
                 self.enviar_respuesta(random.choice(['Reducción de ingresos por problemas de salud','Reducción de ingresos por enfermedad']))
             
             if 'esta situación?' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('6 meses')
+
+            # ¿de donde provienen los recursos?
+            if 'estos recursos' in self.mensajes_mila[-1]:
+                self.enviar_respuesta('mi actividad economica como independiente')
 
             # ¿Cuál es su actividad económica actual? (Independiente - empleado - pensionado - desempleado)?
             if '¿Cuál es su actividad económica actual?' in self.mensajes_mila[-1]:
