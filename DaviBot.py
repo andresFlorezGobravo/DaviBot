@@ -199,7 +199,7 @@ class daviBot:
                 # TODO: almacenar la información de la deuda y los días de mora
                 self.enviar_respuesta(random.choice(['Reducción de ingresos por problemas de salud','Reducción de ingresos por enfermedad']))
             
-            if 'esta situación?' in self.mensajes_mila[-1]:
+            if 'esta situación' in self.mensajes_mila[-1] or 'esto que me comenta' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('6 meses')
 
             # ¿de donde provienen los recursos?
