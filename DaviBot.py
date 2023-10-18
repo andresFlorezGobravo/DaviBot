@@ -177,6 +177,14 @@ class daviBot:
             if 'de hoy?' in self.mensajes_mila[-1] or 'para hoy?' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('No, Quiero llegar a un acuerdo de pago para mis obligaciones en mora')
 
+            # ¿Estaría de acuerdo que le retornemos la llamada a este mismo número en caso que se corte la comunicación por inactividad ?
+            if 'que se corte la comunicación por inactividad' in self.mensajes_mila[-1]:
+                self.enviar_respuesta('SI')
+            #Nos gustaría saber cual es su propuesta actualmente para poder normalizar sus pagos.
+            if 'cual es su propuesta de pago' in self.mensajes_mila[-1]:
+                self.enviar_respuesta(locale.currency(self.deuda_resuelve*0.5, grouping=True)[:-3])
+
+            
             # Actualmente esta en cobro juridico
             if 'cobro juridico' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('Quiero llegar a un acuerdo de pago con ustedes')
@@ -191,6 +199,8 @@ class daviBot:
             if 'realizar un ofrecimiento de acuerdo a su situación actual me puede indicar' in self.mensajes_mila[-1] or 'de ese valor con cuanto dispone para hacer el pago' in self.mensajes_mila[-1]:
                 self.enviar_respuesta(locale.currency(random.randint(12,15)*100000.0, grouping=True )[:-3])
                 self.enviar_respuesta(locale.currency(self.deuda_resuelve*0.5, grouping=True)[:-3])
+                self.enviar_respuesta('Independiente')
+                self.enviar_respuesta('Mi actividad economica como independiente')
             if  'cuanto es su ingreso?' in self.mensajes_mila[-1]:
                  self.enviar_respuesta(locale.currency(random.randint(12,15)*100000.0, grouping=True )[:-3])  
 
@@ -238,6 +248,9 @@ class daviBot:
                 self.enviar_respuesta('¿Con ese valor quedo a paz y salvo con la obligación?')
 
             if 'no podríamos' in self.mensajes_mila[-1]:
+                self.enviar_respuesta('¿Cuanto debería cancelar para quedar a paz y salvo con mis obligaciónes?')
+            
+            if 'replantear su capacidad de pago' in self.mensajes_mila[-1]:
                 self.enviar_respuesta('¿Cuanto debería cancelar para quedar a paz y salvo con mis obligaciónes?')
 
             if 'Para terminar, me gustaría conocer su opinión sobre mi servicio' in self.mensajes_mila[-1]:
