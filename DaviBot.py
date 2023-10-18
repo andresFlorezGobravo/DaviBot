@@ -163,7 +163,7 @@ class daviBot:
                 self.enviar_respuesta('SI')
 
             # Por seguridad y brindar mayor información acerca de sus productos, me puede confirmar su número de celular actual, dirección de residencia completa ( con barrio - ciudad) y correo electrónico, por favor.
-            if 'Por seguridad y brindar mayor información acerca de sus productos' in self.mensajes_mila[-1]: 
+            if 'Por seguridad y brindar mayor información acerca de sus productos' in self.mensajes_mila[-1] or 'Por su seguridad y para verificar su titularidad' in self.mensajes_mila[-1]:
                 self.enviar_respuesta(self.referencia)
                 self.enviar_respuesta(self.direccion)
                 self.enviar_respuesta(self.ciudad)
@@ -200,7 +200,7 @@ class daviBot:
                 self.enviar_respuesta(locale.currency(random.randint(12,15)*100000.0, grouping=True )[:-3])
                 self.enviar_respuesta(locale.currency(self.deuda_resuelve*0.5, grouping=True)[:-3])
                 self.enviar_respuesta('Independiente')
-                self.enviar_respuesta('Mi actividad economica como independiente')
+                self.enviar_respuesta('Mis recursos provienen de mi actividad economica como independiente')
             if  'cuanto es su ingreso?' in self.mensajes_mila[-1]:
                  self.enviar_respuesta(locale.currency(random.randint(12,15)*100000.0, grouping=True )[:-3])  
 
