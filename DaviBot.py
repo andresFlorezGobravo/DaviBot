@@ -128,8 +128,8 @@ class daviBot:
         self.driver.find_element("xpath","//input[@id='textInput']").send_keys(Keys.RETURN)
 
     def tiempo_espera_muy_largo(self):
-        # En dado caso de no recibir respuesta en menos de 7 min se envia un mensaje.
-        if time.time() - self.tiempo_espera>420:
+        # En dado caso de no recibir respuesta en menos de 10 min se envia un mensaje.
+        if time.time() - self.tiempo_espera>600:
             self.enviar_respuesta(random.choice(['Sigo a la espera','Continúo aguardando novedades','Aún estoy en la cola de espera','Mi situación no ha cambiado, sigo esperando', 'No he recibido actualizaciones, sigo en espera.', 'Mi estado sigue siendo el mismo: en espera.',
                                    'Hasta el momento, no ha habido cambios; sigo esperando.', 'Sigo en la misma situación de espera que antes.', 'No ha habido movimiento, sigo en proceso de espera.',
                                    'Estoy manteniendo mi posición en la lista de espera.','no ha habido avances; sigo aguardando.','Aún sigo a la espera', "¿Cuándo crees que estará listo?",
